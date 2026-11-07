@@ -25,7 +25,11 @@ a {
 .website {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at 50% 18%, #14243e, #080b19 58%);
+    radial-gradient(
+      ellipse at 50% 18%,
+      #14243e,
+      #080b19 58%
+    );
 }
 
 /* NAVIGATION */
@@ -67,7 +71,7 @@ nav a:hover {
 
 .hero {
   min-height: 80vh;
-  padding: 70px 20px;
+  padding: 70px 20px 55px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -101,6 +105,8 @@ nav a:hover {
   margin: 0;
 }
 
+/* HERO BUTTONS */
+
 .buttons {
   display: flex;
   flex-wrap: wrap;
@@ -110,10 +116,15 @@ nav a:hover {
 }
 
 .buttons a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   background: #0863db;
   color: white;
   padding: 16px 28px;
   border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
   transition: 0.3s;
 }
 
@@ -122,13 +133,106 @@ nav a:hover {
   background: #0754b8;
 }
 
-.buttons a:last-child {
+.buttons a:nth-child(2) {
   background: transparent;
   border: 1px solid #ff8500;
 }
 
+.buttons a:nth-child(3) {
+  background: transparent;
+  border: 1px solid #26354d;
+}
+
+.buttons a:nth-child(2):hover {
+  background: rgba(255, 133, 0, 0.1);
+}
+
+.buttons a:nth-child(3):hover {
+  background: #111b2e;
+}
+
+/* CIRCULAR SOCIAL ICONS */
+
+.hero-socials {
+  margin-top: 50px;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-socials-title {
+  color: #aeb8cc;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin: 0 0 22px;
+}
+
+.hero-social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.hero-social-circle {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s,
+    border-color 0.3s;
+}
+
+.hero-social-circle svg {
+  width: 30px;
+  height: 30px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-social-circle.social-instagram {
+  background: #4b204e;
+  color: #f9a8d4;
+}
+
+.hero-social-circle.social-whatsapp {
+  background: #153e30;
+  color: #4ade80;
+}
+
+.hero-social-circle.social-facebook {
+  background: #173c74;
+  color: #93c5fd;
+}
+
+.hero-social-circle.social-facebook svg {
+  stroke: none;
+}
+
+.hero-social-circle:hover {
+  transform: translateY(-6px) scale(1.08);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 28px rgba(8, 99, 219, 0.25);
+}
+
+.hero-social-circle:focus-visible,
+.buttons a:focus-visible,
+nav a:focus-visible {
+  outline: 2px solid #ff8500;
+  outline-offset: 4px;
+}
+
 .hero-scroll {
-  margin-top: 90px;
+  margin-top: 65px;
   color: #65748c;
   font-size: 11px;
   letter-spacing: 3px;
@@ -332,67 +436,6 @@ a.card-button:hover {
   margin: 0;
 }
 
-/* SOCIAL LINKS */
-
-.social-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.social-card {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 25px 20px;
-  background: #111b2e;
-  border: 1px solid #26354d;
-  border-radius: 18px;
-  text-align: left;
-  color: white;
-  transition: 0.3s;
-}
-
-.social-card:hover {
-  transform: translateY(-5px);
-  border-color: #ff8500;
-}
-
-.social-icon {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  background: #123969;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 27px;
-  font-weight: bold;
-}
-
-.social-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.social-info h3 {
-  margin: 0 0 7px;
-  font-size: 18px;
-}
-
-.social-info p {
-  color: #aeb8cc;
-  font-size: 12px;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.social-arrow {
-  color: #ff8500;
-  font-size: 22px;
-}
-
 /* FOOTER */
 
 .footer {
@@ -440,10 +483,6 @@ a.card-button:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .social-grid {
-    grid-template-columns: 1fr;
-  }
-
   .team-card:last-child:nth-child(odd) {
     grid-column: 1 / -1;
     width: calc(50% - 13px);
@@ -463,16 +502,53 @@ a.card-button:hover {
   }
 
   .hero {
-    min-height: 70vh;
-    padding: 50px 20px;
+    min-height: auto;
+    padding: 50px 20px 55px;
   }
 
   .hero h1 {
     font-size: 38px;
   }
 
+  .buttons {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .buttons a {
+    padding: 14px 18px;
+  }
+
+  .buttons a:first-child {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .hero-socials {
+    margin-top: 38px;
+  }
+
+  .hero-socials-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .hero-social-icons {
+    gap: 18px;
+  }
+
+  .hero-social-circle {
+    width: 58px;
+    height: 58px;
+  }
+
+  .hero-social-circle svg {
+    width: 27px;
+    height: 27px;
+  }
+
   .hero-scroll {
-    margin-top: 65px;
+    margin-top: 45px;
   }
 
   .team-grid,
@@ -495,11 +571,20 @@ a.card-button:hover {
     padding: 65px 5%;
   }
 
-  .social-card {
-    padding: 20px 15px;
-  }
-
   .footer-brand {
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .buttons a,
+  .hero-social-circle,
+  .content-card,
+  .team-card {
+    transition: none;
   }
 }
