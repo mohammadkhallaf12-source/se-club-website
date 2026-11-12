@@ -1,0 +1,152 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SE Club Icon Generator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #101d32;
+      color: white;
+      max-width: 680px;
+      margin: 55px auto;
+      padding: 18px;
+    }
+
+    h1 {
+      color: #ff8500;
+    }
+
+    p {
+      line-height: 1.7;
+    }
+
+    button {
+      background: #ff8500;
+      color: #111;
+      border: 0;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    #buttons {
+      margin-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>SE Club Icon Generator</h1>
+
+  <p>
+    Choose the official SE Club logo.
+    Download the generated icons and place them
+    inside public/icons.
+  </p>
+
+  <input id="logo" type="file" accept="image/*">
+
+  <div id="buttons" hidden>
+    <button data-size="192" data-name="icon-192.png">
+      Download Android Icon 192
+    </button>
+
+    <button data-size="512" data-name="icon-512.png">
+      Download App Icon 512
+    </button>
+
+    <button data-size="180" data-name="apple-touch-icon.png">
+      Download iPhone Icon
+    </button>
+  </div>
+
+  <p id="message"></p>
+
+  <script>
+    let selectedImage = null;
+
+    document.getElementById('logo')
+      .addEventListener('change', (event) => {
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        const url = URL.createObjectURL(file);
+        const image = new Image();
+
+        image.onload = () => {
+          selectedImage = image;
+          document.getElementById('buttons').hidden = false;
+          document.getElementById('message').textContent =
+            'Logo ready. Download the three icons.';
+
+          URL.revokeObjectURL(url);
+        };
+
+        image.onerror = () => {
+          document.getElementById('message').textContent =
+            'Unable to read this image.';
+          URL.revokeObjectURL(url);
+        };
+
+        image.src = url;
+      });
+
+    document.querySelectorAll('[data-size]')
+      .forEach((button) => {
+        button.addEventListener('click', () => {
+          if (!selectedImage) return;
+
+          const size = Number(button.dataset.size);
+          const canvas = document.createElement('canvas');
+
+          canvas.width = size;
+          canvas.height = size;
+
+          const ctx = canvas.getContext('2d');
+
+          ctx.fillStyle = '#111b2e';
+          ctx.fillRect(0, 0, size, size);
+
+          const available = size * 0.8;
+
+          const scale = Math.min(
+            available / selectedImage.width,
+            available / selectedImage.height
+          );
+
+          const width = selectedImage.width * scale;
+          const height = selectedImage.height * scale;
+
+          ctx.drawImage(
+            selectedImage,
+            (size - width) / 2,
+            (size - height) / 2,
+            width,
+            height
+          );
+
+          canvas.toBlob((blob) => {
+            if (!blob) return;
+
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.href = url;
+            link.download = button.dataset.name;
+            link.click();
+
+            setTimeout(() => {
+              URL.revokeObjectURL(url);
+            }, 1500);
+          }, 'image/png');
+        });
+      });
+  </script>
+</body>
+</html>
